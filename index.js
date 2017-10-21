@@ -61,8 +61,9 @@ async function getRates () {
 
 const run = async () => {
   try {
+    console.log('started running')
     // schedule.scheduleJob('*/2 * * * *', getRates)
-    schedule.scheduleJob({hour: 23, minute: 21}, getRates)
+    schedule.scheduleJob({hour: 23, minute: 30}, getRates)
   } catch (error) {
     console.log(error)
   }
