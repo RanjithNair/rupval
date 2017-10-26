@@ -8,9 +8,9 @@ async function getRates () {
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
     const page = await browser.newPage()
     // Remitly
-    await page.goto('https://www.remitly.com/us/en/india')
+    await page.goto('https://www.remitly.com/us/en/india/pricing')
     const remitlyRate = await page.$eval(
-      'p.fx-rate:nth-child(2)',
+      '#indiatable > tbody > tr.forexrates > td:nth-child(1)',
       el => el.innerText
     )
     console.log(`REMITLY --> ${remitlyRate}`)
