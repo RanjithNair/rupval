@@ -6,6 +6,7 @@ async function getRates () {
   try {
     console.log('start fetching rates!!')
     const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']})
+    // const browser = await puppeteer.launch({headless: false})
     const page = await browser.newPage()
     // Remitly
     await page.goto('https://www.remitly.com/us/en/india/pricing')
@@ -27,7 +28,10 @@ async function getRates () {
 
     // XOOM Service
     await page.goto('https://www.xoom.com/india/fees-fx')
-    const xoomRate = await page.$eval('#fxRate', el => el.innerText)
+    await page.focus('#sendAmount')
+    await page.type('#sendAmount', '2500', { delay: 100 })
+    await page.waitFor(3000)
+    const xoomRate = await page.$eval('#js-ui-content-update-animation-item-1 > p', el => el.innerText)
     console.log(`XOOM --> ${xoomRate}`)
 
     // RIA Service
@@ -62,6 +66,7 @@ async function getRates () {
 const run = async () => {
   try {
     console.log('started running')
+    // getRates()
     // schedule.scheduleJob('*/2 * * * *', getRates)
     schedule.scheduleJob({hour: 21, minute: 30}, getRates)
   } catch (error) {
